@@ -1,0 +1,37 @@
+title: Suspicious GlobalProtect Data File Access
+id: 1b5fc48c-5e17-4b3a-9575-242ccfea7f16
+status: experimental
+description: |
+    Detects file access requests to Palo Alto GlobalProtect cookie and configuration files originating from processes other than Palo Alto GlobalProtect.
+    This can be a sign of credential theft and attempts to enumate HIP policy confgurations.
+    Requires File System Auditing and appropriate SACL set with inheritence on target directories if using native Windows event logging. 
+related:
+    - id: 2a974294-09bc-4ec6-8b87-972b82c8de63
+      type: similar
+    - id: 675fb788-3808-4a93-bdee-9600b2b27c50
+      type: similar 
+references:
+    - https://rotarydrone.medium.com/4a1d8fc7773e
+author: rotarydrone
+date: 2024-08-29
+modified: 2024-08-29
+tags:
+    - attack.credential-access
+    - attack.t1539
+logsource:
+    category: file_access
+    product: windows
+    definition: 'Requirements: Microsoft-Windows-Kernel-File ETW provider'
+detection:
+    selection:
+        TargetFilename|contains: 
+            - 'Palo Alto Networks\GlobalProtect\PanPortalCfg_'
+            - 'Palo Alto Networks\GlobalProtect\PanPUAC_'
+            - 'HipPolicy.dat'
+    filter_globalprotect_programfiles:
+        Image|startswith:
+            - 'C:\Program Files\Palo Alto Networks\GlobalProtect\'
+    condition: selection and not 1 of filter_globalprotect_programfiles
+falsepositives:
+    - Unknown
+level: medium
