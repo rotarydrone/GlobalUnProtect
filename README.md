@@ -2,6 +2,8 @@
 
 PoC tool for decrypting and collecting GlobalProtect configuration, cookies, and HIP files from windows client installations. 
 
+Blog post: https://rotarydrone.medium.com/4a1d8fc7773e
+
 ## Usage
 
 Run as standalone or in-memory via execute-assembly or equivalent. Collects all contents to an in-memory zip and writes to specified location.
@@ -44,7 +46,7 @@ Usage: GlobalUnProtect.exe C:\Path\To\Output.zip
 Connect via OpenConnect: 
 
 ```
-$ sudo openconnect - protocol=gp - user="example\\username" - usergroup=portal:portal-userauthcookie - os=win https://vpn.example.com - csd-wrapper ~/tools/custom-hips-profile.sh
+$ sudo openconnect --protocol=gp --user="example\\username" --usergroup=portal:portal-userauthcookie --os=win https://vpn.example.com --csd-wrapper ~/tools/custom-hips-profile.sh
 ```
 
 
